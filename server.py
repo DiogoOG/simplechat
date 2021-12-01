@@ -51,31 +51,6 @@ def handle(client_socket, client_address):
 
 # Com a função definida, criar tarefas (threads) para cada uma das conexões recebidas
 
-def getCommands():
-    com = ""
-    while com != "/q":
-        com = input(" > ").split(' ')
-        if (com[0] == "/q"):
-            for cs in client_sockets:
-                try:
-                    cs.send( "Servidor encerrado".encode() )
-                    cs.close()
-                except Exception:
-                        pass
-            return
-        elif(com [0] == "/b"):
-            if len(com) < 2:
-                print("Insira uma mensagem após /b!")
-            else:
-                msg = ""
-                for word in com[1:]:
-                    msg = msg + word
-                for cs in client_sockets:
-                    try:
-                        cs.send( (f"[{datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')}] SERVIDOR > {msg}").encode() )
-                    except Exception:
-                        pass
-
 def listen():
     while True:
         client_socket, client_address = host_socket.accept()
@@ -89,5 +64,35 @@ def listen():
 listener = Thread ( target=listen )
 listener.daemon = True
 listener.start()
+
+commands = ["/quit","/help","/broadcast"]
+
+def getCommands():
+    while True:
+        com = input(" > ").split(' ')
+        if (com[0] not in commands):
+            print("Comando não reconhecido.")
+        elif (com[0] == "/quit"):
+            for cs in client_sockets:
+                try:
+                    cs.send( "Servidor encerrado".encode() )
+                    cs.close()
+                except Exception:
+                    pass
+            return
+        elif(com [0] == "/broadcast"):
+            if len(com) < 2:
+                print("Insira uma mensagem após /b!")
+            else:
+                msg = ""
+                for word in com[1:]:
+                    msg = msg + word
+                for cs in client_sockets:
+                    try:
+                        cs.send( (f"[{datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')}] SERVIDOR > {msg}").encode() )
+                    except Exception:
+                        pass
+        elif(com [0] == "/help"):
+            print(commands)
 
 getCommands()
