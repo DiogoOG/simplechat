@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-server-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chat-server-app
+  template:
+    metadata:
+      labels:
+        app: chat-server-app
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: chat-server-app
+        image: chatproj.azurecr.io/chat-server-app:latest
+        env:
+        ports:
+        - containerPort: 5000
+          name: server
