@@ -62,11 +62,4 @@ connect()
 start_listening(listener)
 
 while True:
-    com = input()
-    if com == "CLOSE":
-        for cs in client_sockets:
-            try:
-                cs.send( "Servidor encerrado".encode() )
-                cs.close()
-            except Exception:
-                pass
+    pass
