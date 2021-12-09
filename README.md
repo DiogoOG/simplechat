@@ -1,5 +1,7 @@
 # simple-chat
 
+Grupo 5: Diogo Gouveia; Francisco Gonçalves; José Fabrício Silva
+
 Uma simples aplicação de chat.
 Esta aplicação segue uma arquitetura CLIENTE/SERVIDOR; um servidor disponibiliza-se a conexões de múltiplos clientes, recebendo as suas mensagens
 e redirecionando-as para os restantes. Ambas as partes estão incluídas aqui, mas note-se que apenas server.py é destinado a correr num contentor.
