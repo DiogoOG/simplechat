@@ -6,29 +6,28 @@ MAX_CONNECTIONS =  5
 BUFFER_SIZE = 1024 # razoável me thinks
 
 client_sockets = []
+host_socket = socket.socket()
 
-# Config
-valid = False
-while not valid:
-    try:
-        HOST, PORT = input("Host IP: ").split(':')
-        PORT = int(PORT)
+# Para pedir informação para conexão
+def connect():
+    valid = False
+    while not valid:
+        try:
+            HOST, PORT = input("Host IP: ").split(':')
+            PORT = int(PORT)
         
-        host_socket = socket.socket()
-        host_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            host_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-        host_socket.bind((HOST,PORT))
+            host_socket.bind((HOST,PORT))
 
-        valid = True
-    except Exception as e:
-        print(e)
+            valid = True
+        except Exception as e:
+            print(e)
 
-print(f"Ouvindo como {HOST}:{PORT}.")
+    print(f"Ouvindo como {HOST}:{PORT}.")
 
-# Ativar o socket para MAX_CONNECTIONS ligações vindouras
-host_socket.listen(MAX_CONNECTIONS)
-
-# A partir daqui, podem ser aceites conexões
+    # Ativar o socket para MAX_CONNECTIONS ligações vindouras
+    host_socket.listen(MAX_CONNECTIONS)
 
 # Aqui a função para lidar com uma conexão
 def handle(client_socket, client_address):
@@ -51,7 +50,8 @@ def handle(client_socket, client_address):
 
 # Com a função definida, criar tarefas (threads) para cada uma das conexões recebidas
 
-def listen():
+# Código da tarefa para esperar por conexões
+def listener():
     while True:
         client_socket, client_address = host_socket.accept()
 
@@ -61,18 +61,22 @@ def listen():
 
         client_thread.start()
 
-listener = Thread ( target=listen )
-listener.daemon = True
-listener.start()
+# Iniciar a tarefa
+def listen(listener_thread):
+    listener = Thread ( target = listener_thread )
+    listener.daemon = True
+    listener.start()
 
-commands = ["/quit","/help","/broadcast"]
-
+# Comandos simples
 def getCommands():
+
+    commands = ["quit","help","broadcast"]
+
     while True:
         com = input(" > ").split(' ')
         if (com[0] not in commands):
             print("Comando não reconhecido.")
-        elif (com[0] == "/quit"):
+        elif (com[0] == "quit"):
             for cs in client_sockets:
                 try:
                     cs.send( "Servidor encerrado".encode() )
@@ -80,9 +84,9 @@ def getCommands():
                 except Exception:
                     pass
             return
-        elif(com [0] == "/broadcast"):
+        elif(com [0] == "broadcast"):
             if len(com) < 2:
-                print("Insira uma mensagem após /b!")
+                print("Insira uma mensagem após broadcast!")
             else:
                 msg = ""
                 for word in com[1:]:
@@ -95,4 +99,7 @@ def getCommands():
         elif(com [0] == "/help"):
             print(commands)
 
+# Agora basta apenas correr
+connect()
+listen(listener)
 getCommands()
