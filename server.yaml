@@ -28,7 +28,7 @@ metadata:
   name: chat-server-app-service
   namespace: default
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: chat-server-app
   ports:
