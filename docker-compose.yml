@@ -1,6 +1,7 @@
 version: "3.9"
 services:
   web:
+    image: chat-server-app
     build: .
     ports:
       - "5555:9000"
