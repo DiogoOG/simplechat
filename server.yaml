@@ -3,16 +3,10 @@ kind: Deployment
 metadata:
   name: chat-server-app
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: chat-server-app
-  replicas: 3
-  minReadySeconds: 5
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 1
   template:
     metadata:
       labels:
@@ -22,23 +16,22 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
       - name: chat-server-app
-        image: simplechatproj.azurecr.io/chat-server-app:v1.0.0
-        
+        image: simplechatproj.azurecr.io/chat-server-app:v1.0.0       
+        env:
+        - name: "PORT"
+    
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
   name: chat-server-app-service
-  namespace: default
 spec:
   type: LoadBalancer
   selector:
     app: chat-server-app
   ports:
-  - port: 8080
-    targetPort: 8080
-    nodePort: 30003
-
+  - port: 9000
+    targetPort: 9000
 
 

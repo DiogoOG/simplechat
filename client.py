@@ -43,6 +43,7 @@ def sendMessage():
                 client_socket.send( (f"{getSignature()} desconectou-se.").encode() )
                 client_socket.send( "<DISCONNECT>".encode() )
                 client_socket.close()
+                break
             else:
                 client_socket.send( (f"{getSignature()} > {message}").encode() )
 
