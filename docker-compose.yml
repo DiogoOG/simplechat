@@ -4,4 +4,4 @@ services:
     image: simpleserver
     build: .
     ports:
-      - "9000:9000"
+      - "32000:32000"

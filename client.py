@@ -33,7 +33,8 @@ def getBroadcast():
         except Exception:
             return
         else:
-            print(received)
+            if len(received) > 0:
+                print(received)
 
 def sendMessage():
     while True:

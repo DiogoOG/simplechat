@@ -12,13 +12,11 @@ spec:
       labels:
         app: chat-server-app
     spec:
-      nodeSelector:
-        "beta.kubernetes.io/os": linux
       containers:
       - name: chat-server-app
-        image: simplechatproj.azurecr.io/chat-server-app:v1.0.0       
-        env:
-        - name: "PORT"
+        image: simplechat:latest
+        ports:
+        - containerPort: 32000
     
 ---
 
@@ -31,7 +29,6 @@ spec:
   selector:
     app: chat-server-app
   ports:
-  - port: 9000
-    targetPort: 9000
-
-
+  - port: 32000
+    nodePort: 32000
+    targetPort: 32000
