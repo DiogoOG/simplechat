@@ -1,5 +1,6 @@
 import socket
 from threading import Thread
+import datetime
 import sys
 
 MAX_CONNECTIONS =  10
@@ -7,6 +8,14 @@ BUFFER_SIZE = 1024
 
 client_sockets = []
 host_socket = socket.socket()
+
+logfilename = f"logs/LOG_{datetime.datetime.now().strftime('%d%m%Y_%H%M%S')}.txt"
+
+def log(line):
+    logfile = open(logfilename,"a")
+    print(line)
+    logfile.write(line + "\n")
+    logfile.close()
 
 def connect():
 
@@ -21,7 +30,7 @@ def connect():
 
     host_socket.bind((IP,PORT))
 
-    print(f"Ouvindo como {IP}:{PORT}.")
+    log(f"Ouvindo como {IP}:{PORT}.")
 
     host_socket.listen(MAX_CONNECTIONS)
     
@@ -31,16 +40,18 @@ def handle(client_socket,client_address):
         try:
             received = client_socket.recv(BUFFER_SIZE).decode()
         except Exception:
+            log(Exception)
             return
         else:
             if "<DISCONNECT>" in received:
                 client_socket.close()
             else:
-                print(received)
+                log(received)
                 for cs in client_sockets:
                     try:
                         cs.send( received.encode() )
                     except Exception:
+                        log(Exception)
                         pass
 
 def listener():
@@ -53,13 +64,13 @@ def listener():
 
         client_thread.start()
 
-def start_listening(listener_thread):
-    listener = Thread ( target = listener_thread )
-    listener.daemon = True
-    listener.start()
-
 connect()
-start_listening(listener)
+
+listener_thread = Thread ( target=listener )
+
+listener_thread.daemon = True
+
+listener_thread.start()
 
 while True:
     pass

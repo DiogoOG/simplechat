@@ -4,4 +4,4 @@ services:
     image: chat-server-app
     build: .
     ports:
-      - "5555:9000"
+      - "32000:32000"

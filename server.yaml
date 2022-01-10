@@ -22,7 +22,9 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
       - name: chat-server-app
-        image: simplechatproj.azurecr.io/chat-server-app:v1.0.0
+        image: jfsilvapt/chat-server-app:v1.3.0
+        ports:
+        - containerPort: 32000
         
 ---
 
@@ -36,9 +38,9 @@ spec:
   selector:
     app: chat-server-app
   ports:
-  - port: 8080
-    targetPort: 8080
-    nodePort: 30003
+  - port: 32000
+    targetPort: 32000
+    nodePort: 32000
 
 
 

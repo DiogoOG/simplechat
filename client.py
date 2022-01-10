@@ -33,7 +33,8 @@ def getBroadcast():
         except Exception:
             return
         else:
-            print(received)
+            if len(received) > 0:
+                print(received)
 
 def sendMessage():
     while True:
@@ -43,6 +44,7 @@ def sendMessage():
                 client_socket.send( (f"{getSignature()} desconectou-se.").encode() )
                 client_socket.send( "<DISCONNECT>".encode() )
                 client_socket.close()
+                break
             else:
                 client_socket.send( (f"{getSignature()} > {message}").encode() )
 
