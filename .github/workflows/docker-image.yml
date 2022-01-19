@@ -12,11 +12,19 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+  
     steps:
       -
         name: Checkout 
         uses: actions/checkout@v2
+      -
+         name: Set output
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - 
+        name: Check output
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }:
       -
         name: Login to Docker Hub
         uses: docker/login-action@v1
@@ -33,4 +41,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_ID }}/simplechat:${{ github.event.release.tag_name }}
+          tags: ${{ secrets.DOCKER_ID }}/simplechat:$RELEASE_VERSION
