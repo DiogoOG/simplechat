@@ -16,6 +16,6 @@ Para testar localmente:
 > client.py
 
     - Insira o IP: localhost:9000
-    - Nickname: Andreia
+    - Nickname: André
    
 A partir deste ponto o cliente envia mensagens que o servidor recebe e retransmite para todos os conetados.
