@@ -2,6 +2,8 @@ name: Docker Image CI
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
 
@@ -31,4 +33,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_ID }}/simplechat:latest
+          tags: ${{ secrets.DOCKER_ID }}/simplechat:${{ github.event.release.tag_name }}
