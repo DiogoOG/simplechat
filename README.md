@@ -19,3 +19,9 @@ Para testar localmente:
     - Nickname: André
    
 A partir deste ponto o cliente envia mensagens que o servidor recebe e retransmite para todos os conetados.
+
+## Github actions
+
+Sempre que criarmos uma tag no projeto com a sintaxe v*.*.* é desploteado uma github action que faz o build da imagem e envia
+para o docker hub.
+
