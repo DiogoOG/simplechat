@@ -40,7 +40,7 @@ def handle(client_socket,client_address):
         try:
             received = client_socket.recv(BUFFER_SIZE).decode()
         except Exception:
-            log(Exception)
+            #log(Exception)
             return
         else:
             if "<DISCONNECT>" in received:
@@ -51,7 +51,7 @@ def handle(client_socket,client_address):
                     try:
                         cs.send( received.encode() )
                     except Exception:
-                        log(Exception)
+                        #log(Exception)
                         pass
 
 def listener():
