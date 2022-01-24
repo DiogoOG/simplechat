@@ -22,6 +22,6 @@ A partir deste ponto o cliente envia mensagens que o servidor recebe e retransmi
 
 ## Github actions
 
-Sempre que criarmos uma tag no projeto com a sintaxe `v*.*.*` é desploteado uma github action que faz o build da imagem e envia
-para o docker hub.
+Sempre que criarmos uma tag no projeto com a sintaxe `v*.*.*` é despoletada uma GitTub Action que faz o build da imagem e a envia
+para o Docker Hub.
 
