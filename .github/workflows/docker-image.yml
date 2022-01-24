@@ -38,4 +38,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_ID }}/simplechat:${{github.ref_name}}
+          tags: |
+            ${{ secrets.DOCKER_ID }}/simplechat:latest
+            ${{ secrets.DOCKER_ID }}/simplechat:${{github.ref_name}}
